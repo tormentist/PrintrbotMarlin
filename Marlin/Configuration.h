@@ -16,7 +16,7 @@
 // startup. Implementation of an idea by Prof Braino to inform user that any changes made to this
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
-#define STRING_CONFIG_H_AUTHOR "(j-laird, Printrbot firmware)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(Tormentist)" // Who made the changes.
 
 // SERIAL_PORT selects which serial port should be used for communication with the host.
 // This allows the connection of wireless adapters (for instance) to non-default port pins.
@@ -75,14 +75,15 @@
 #endif
 
 // Define this to set a custom name for your generic Mendel,
-// #define CUSTOM_MENDEL_NAME "This Mendel"
+ #define CUSTOM_MENDEL_NAME "Simple Metal"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
-// #define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
+#define MACHINE_UUID "ed29e7cd-7918-436f-81d7-747bdf5153b4"
+// Random UUID added to make sure you have this particular firmware version (jusrt run M115 to doublecheck)
 
 // This defines the number of extruders
-#define EXTRUDERS 3
+#define EXTRUDERS 1
 
 //// The following define selects which power supply you have. Please choose the one that matches your setup
 // 1 = ATX
@@ -122,7 +123,7 @@
 // 52 is 200k thermistor - ATC Semitec 204GT-2 (1k pullup)
 // 55 is 100k thermistor - ATC Semitec 104GT-2 (Used in ParCan & J-Head) (1k pullup)
 
-#define TEMP_SENSOR_0 1
+#define TEMP_SENSOR_0 5
 #define TEMP_SENSOR_1 1
 #define TEMP_SENSOR_2 1
 #define TEMP_SENSOR_BED 7
@@ -147,7 +148,7 @@
 // When temperature exceeds max temp, your heater will be switched off.
 // This feature exists to protect your hotend from overheating accidentally, but *NOT* from thermistor short/failure!
 // You should use MINTEMP for thermistor short/failure protection.
-#define HEATER_0_MAXTEMP 275
+#define HEATER_0_MAXTEMP 300
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define BED_MAXTEMP 150
@@ -172,10 +173,17 @@
   #define PID_dT ((16.0 * 8.0)/(F_CPU / 64.0 / 256.0)) //sampling period of the temperature routine
 
 // If you are using a preconfigured hotend then you can use one of the value sets by uncommenting it
+// My E3D V6  results
+//Recv: PID Autotune finished! Put the Kp, Ki and Kd constants into Configuration.h
+// My PID tuning results, yours might vary, always run PID auto tune: M303 E0 S200 C5 and configure your own with M301, example: M301 P25.97 I2.36 D71.49
+#define  DEFAULT_Kp 25.97
+#define  DEFAULT_Ki 2.36
+#define  DEFAULT_Kd 71.494
+
 // Ultimaker
-    #define  DEFAULT_Kp 22.2
-    #define  DEFAULT_Ki 1.08
-    #define  DEFAULT_Kd 114
+    // #define  DEFAULT_Kp 22.2
+    // #define  DEFAULT_Ki 1.08
+    // #define  DEFAULT_Kd 114
 
 // Makergear
 //    #define  DEFAULT_Kp 7.0
@@ -308,11 +316,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define max_software_endstops true  // If true, axis won't move to coordinates greater than the defined lengths below.
 
 // Travel limits after homing
-#define X_MAX_POS_DEFAULT 100
+#define X_MAX_POS_DEFAULT 152.4
 #define X_MIN_POS_DEFAULT 0
-#define Y_MAX_POS_DEFAULT 100
+#define Y_MAX_POS_DEFAULT 152.4
 #define Y_MIN_POS_DEFAULT 0
-#define Z_MAX_POS_DEFAULT 100
+#define Z_MAX_POS_DEFAULT 152.4
 #define Z_MIN_POS_DEFAULT 0
 
 #define X_MAX_LENGTH (base_max_pos[0] - base_min_pos[0])
@@ -371,11 +379,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 
   // with accurate bed leveling, the bed is sampled in a ACCURATE_BED_LEVELING_POINTSxACCURATE_BED_LEVELING_POINTS grid and least squares solution is calculated
   // Note: this feature occupies 10'206 byte
-  //#define ACCURATE_BED_LEVELING
+  #define ACCURATE_BED_LEVELING
   
   #ifdef ACCURATE_BED_LEVELING
      // I wouldn't see a reason to go above 3 (=9 probing points on the bed)
-    #define ACCURATE_BED_LEVELING_POINTS 2
+    #define ACCURATE_BED_LEVELING_POINTS 3
   #endif
   
 #endif
@@ -411,7 +419,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 // #define EXTRUDER_OFFSET_Y {0.0, 5.00}  // (in mm) for each extruder, offset of the hotend on the Y axis
 
 // The speed change that does not require acceleration (i.e. the software might assume it can be done instantaneously)
-#define DEFAULT_XYJERK                20.0    // (mm/sec)
+#define DEFAULT_XYJERK                10.0    // (mm/sec)
 #define DEFAULT_ZJERK                 0.4     // (mm/sec)
 #define DEFAULT_EJERK                 5.0    // (mm/sec)
 
@@ -441,20 +449,20 @@ const bool Z_MAX_ENDSTOP_INVERTING = false; // set to true to invert the logic o
 #define ABS_PREHEAT_FAN_SPEED 255   // Insert Value between 0 and 255
 
 //LCD and SD support
-#define ULTRA_LCD  //general lcd support, also 16x2
+// #define ULTRA_LCD  //general lcd support, also 16x2
 //#define DOGLCD  // Support for SPI LCD 128x64 (Controller ST7565R graphic Display Family)
 #define SDSUPPORT // Enable SD Card Support in Hardware Console
 //#define SDSLOW // Use slower SD transfer mode (not normally needed - uncomment if you're getting volume init error)
 //#define ENCODER_PULSES_PER_STEP 1 // Increase if you have a high resolution encoder
 //#define ENCODER_STEPS_PER_MENU_ITEM 5 // Set according to ENCODER_PULSES_PER_STEP or your liking
-#define NEWPANEL
+// #define NEWPANEL
 
 //Uncomment the lines below to save program flash space
 #define DISABLE_LCD_MOTION_MENU
 #define DISABLE_PREHEAT_MENU
 
 //#define ULTIMAKERCONTROLLER //as available from the ultimaker online store.
-#define ULTIPANEL  //the ultipanel as on thingiverse
+// #define ULTIPANEL  //the ultipanel as on thingiverse
 
 // The MaKr3d Makr-Panel with graphic controller and SD support
 // http://reprap.org/wiki/MaKr3d_MaKrPanel
